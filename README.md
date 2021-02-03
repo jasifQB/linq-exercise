@@ -8,7 +8,7 @@ To run the project, you'll need to:
 
 * Clone this repository:
 
-      $ git clone https://github.com/habitat-sh/sample-node-app.git
+      $ git clone https://github.com/jasifQB/linq-exercise.git
       $ cd linq-exercise
 
 * Install dependencies:
@@ -35,9 +35,7 @@ The only required argument is `<grapes>`
 
 An example for the command is given below.
 
-```
-ts-node src/index.ts -g "merlot,Chardonnay" -r 3.5 -p 100 -P 500
-```
+    $ ts-node src/index.ts -g "merlot,Chardonnay" -r 3.5 -p 100 -P 500
 
 
 Run the tests:
