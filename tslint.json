@@ -1,0 +1,63 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "rules": {
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "no-consecutive-blank-lines": true,
+    "semicolon": [
+      true,
+      "never"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "singleline": "never",
+        "multiline": {
+          "objects": "always",
+          "arrays": "always",
+          "functions": "never",
+          "typeLiterals": "ignore"
+        }
+      }
+    ],
+    "max-line-length": [
+      true,
+      160
+    ],
+    "no-console": false,
+    "triple-equals": true,
+    "no-require-imports": true,
+    "one-line": true,
+    "space-within-parens": false,
+    "unnecessary-else": true,
+    "comment-format": true,
+    "ordered-imports": true,
+    "align": true,
+    "eofline": true,
+    "import-spacing": true,
+    "indent": [
+      true,
+      "spaces",
+      2
+    ],
+    "jsdoc-format": true,
+    "linebreak-style": [
+      true,
+      "LF"
+    ],
+    "newline-before-return": true,
+    "new-parens": true,
+    "no-irregular-whitespace": true,
+    "no-trailing-whitespace": true,
+    "number-literal-format": true,
+    "whitespace": true,
+    "object-curly-spacing": false,
+    "binary-expression-operand-order": true,
+    "no-shadowed-variable": false
+  }
+}
