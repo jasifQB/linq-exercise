@@ -24,7 +24,7 @@ To run the project using `node`. you'll have to:
 
 * Run the project:
 
-      $ npm start -g <grapes> -r <minRating> -p <minPrice> -P <maxPrice>
+      $ node dist/index.js -g <grapes> -r <minRating> -p <minPrice> -P <maxPrice>
 
 To run the project using `ts-node`. you'll have to:
 
