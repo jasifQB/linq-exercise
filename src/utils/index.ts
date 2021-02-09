@@ -10,12 +10,13 @@ export default class Utils {
   }
 
   public static buildSearchURL(searchParams: ISearchParam, pageIndex: number): string {
-    let url = `${URLS.EXPLORE_API_URL}?grape_filter=varietal&country_code=US&currency_code=USD`
-    url += `&order_by=ratings_average&order=desc&page=${pageIndex}`
+    let url = `${URLS.EXPLORE_API_URL}?country_code=US&currency_code=USD`
     url += this.buildQueryString('grape_ids[]', searchParams.grapes)
+    url += `&grape_filter=varietal`
     url += `&min_rating=${searchParams.minRating}`
-    url += `&price_range_min=${searchParams.minPrice}`
+    url += `&order_by=ratings_average&order=desc&page=${pageIndex}`
     url += `&price_range_max=${searchParams.maxPrice}`
+    url += `&price_range_min=${searchParams.minPrice}`
 
     return url
   }

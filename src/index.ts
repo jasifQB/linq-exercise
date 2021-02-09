@@ -2,6 +2,9 @@ import chalk from 'chalk'
 import clear from 'clear'
 import program from 'commander'
 import figlet from 'figlet'
+import fs from 'fs-extra'
+import path from 'path'
+import { Wine } from './models/wine.model'
 import { WineService } from './services/wine.service'
 (async () => {
   try {
@@ -56,7 +59,8 @@ import { WineService } from './services/wine.service'
       maxPrice: options.maxPrice || 9999999,
     })
 
-    console.log(result)
+    fs.writeFileSync('./output/output.json', `[${Wine.factoryMapModeltoJSON(result).join(',')}]`, { flag: 'w+'})
+    console.log(chalk.green('\nOutput saved to file: ./output/output.json \n'))
     process.exit(1)
   } catch (error) {
     console.log(error)

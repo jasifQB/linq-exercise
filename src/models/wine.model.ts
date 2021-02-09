@@ -22,7 +22,7 @@ export class Wine {
     imageUrl: string,
     bottleVolume: number,
     discountPercent: number
-  }){
+  }) {
     this.title = data.title
     this.year = data.year
     this.region = data.region
@@ -52,5 +52,27 @@ export class Wine {
         discountPercent: wine?.price?.discount_percent,
       })
     })
+  }
+
+  public static factoryMapModeltoJSON(wines: Wine[]): any[] {
+    const json: any[] = []
+    wines.forEach(wine => {
+      const jsonWine = `{
+        "title": "${wine.title}",
+        "year": ${wine.year},
+        "price": ${wine.price},
+        "currencyCode": "${wine.currencyCode}",
+        "averageRating": ${wine.averageRating},
+        "ratingsCount": ${wine.ratingsCount},
+        "imageUrl": "${wine.imageUrl}",
+        "region": "${wine.region}",
+        "country": "${wine.country}",
+        "bottleVolume": ${wine.bottleVolume},
+        "discountPercent": "${wine.discountPercent}"
+      }`
+      json.push(jsonWine)
+    })
+
+    return json
   }
 }

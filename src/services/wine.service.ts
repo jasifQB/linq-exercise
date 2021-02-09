@@ -14,21 +14,25 @@ export class WineService {
   public async getAllWines(searchParams: ISearchParam): Promise<Wine[]> {
     const puppeteerHelper = new PuppeteerHelper({ headless: true, timeout: 9999999 })
     await puppeteerHelper.setupBrowser()
-    this.page = await puppeteerHelper.setupPage(URLS.EXPLORE_PAGE_URL)
+    try {
+      this.page = await puppeteerHelper.setupPage(URLS.EXPLORE_PAGE_URL)
+      const grapeList = await this.fetchGrapeList()
+      const requestedGrapes = searchParams.grapes.split(',').map((grape) => grape.trim())
+      const requestedGrapeIDs = grapeList.filter((grape: IGrape) => requestedGrapes.findIndex((rGrape) =>
+        rGrape.toLowerCase() === grape.name.toLowerCase()) > -1).map((grape) => grape.id)
 
-    const grapeList = await this.fetchGrapeList()
-    const requestedGrapes = searchParams.grapes.split(',').map((grape) => grape.trim())
-    const requestedGrapeIDs = grapeList.filter((grape: IGrape) => requestedGrapes.findIndex((rGrape) =>
-      rGrape.toLowerCase() === grape.name.toLowerCase()) > -1).map((grape) => grape.id)
+      if (!requestedGrapeIDs.length) throw new Error('Invalid grapes input.')
 
-    if (!requestedGrapeIDs.length) throw new Error('Invalid grapes input.')
+      searchParams.grapes = requestedGrapeIDs.join(',')
+      const wineList = await this.fecthCompleteWineList(searchParams)
 
-    searchParams.grapes = requestedGrapeIDs.join(',')
-    const wineList = await this.fecthCompleteWineList(searchParams)
+      puppeteerHelper.closeBrowser()
 
-    puppeteerHelper.closeBrowser()
-
-    return wineList
+      return wineList
+    } catch (error) {
+      puppeteerHelper.closeBrowser()
+      throw error
+    }
   }
 
   private async fetchGrapeList(): Promise<IGrape[]> {
@@ -47,11 +51,14 @@ export class WineService {
 
   private async fecthCompleteWineList(searchParams: ISearchParam): Promise<Wine[]> {
     const wineList: Wine[] = []
+
     const result: any = await this.fetchWineList(searchParams, 1)
 
-    const totalRecordsCount =  result.records_matched
+    const totalRecordsCount = result.records_matched
     const recordsPerPage = result.records.length
     const totalPages = Math.ceil(totalRecordsCount / recordsPerPage)
+
+    console.log({ totalRecordsCount })
 
     wineList.push(...Wine.factoryMapJSONtoModel(result.records))
 
@@ -65,7 +72,6 @@ export class WineService {
 
   private async fetchWineList(searchParams: ISearchParam, pageIndex: number): Promise<any> {
     const searchURL = Utils.buildSearchURL(searchParams, pageIndex)
-
     const result = await this.page.evaluate(async (url) => {
       const response = await fetch(url)
       const responseText = await response.text()
